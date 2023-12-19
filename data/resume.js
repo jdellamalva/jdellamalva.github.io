@@ -1,0 +1,28 @@
+const resume = [
+    {
+      "start": 2021,
+      "end": "Current",
+      "title": "Business Analyst",
+      "description": "Applied Imagination blah blah blah a cool description goes here"
+    },
+    {
+      "start": 2017,
+      "end": 2018,
+      "title": "Teacher @ Trinity Preparatory School",
+      "description": "description of my job duties goes here"
+    },
+    {
+      "start": 2013,
+      "end": 2017,
+      "title": "Teacher @ South Creek Middle School",
+      "description": "description of my job duties goes here"
+    },
+    {
+      "start": 2016,
+      "end": 2021,
+      "title": "Director @ Liberty Language Academy",
+      "description": "description of my job duties goes here"
+    }
+  ]
+
+  export {resume};
