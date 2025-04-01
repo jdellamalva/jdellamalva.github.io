@@ -102,7 +102,7 @@ export default function ResumeRenderer(resume: ResumeProps) {
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchend", handleTouchEnd);
         };
-    }, [currentIndex, resume.experience.length]);
+    }, [handleClick, currentIndex, resume.experience.length]);
 
     return (
         <div className={styles.container}>
