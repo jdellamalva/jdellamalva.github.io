@@ -6,8 +6,7 @@
         "dev": "next dev --turbopack",
         "build": "cross-env NODE_ENV=production next build",
         "start": "next start",
-        "lint": "next lint",
-        "deploy": "npm run build && node -e \"require('fs-extra').ensureFileSync('out/.nojekyll')\" && gh-pages -d out --dotfiles"
+        "lint": "next lint"
     },
     "dependencies": {
         "next": "15.2.4",
