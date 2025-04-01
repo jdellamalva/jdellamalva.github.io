@@ -1,0 +1,60 @@
+.container {
+    width: 100%;
+    margin: 0 auto 20px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.5s ease;
+}
+
+.scrolled {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.nav {
+    width: 90%;
+    max-width: calc(950px - var(--padding-xl));
+    display: flex;
+    justify-content: center;
+}
+
+.nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+    padding: var(--padding-xl) 0;
+    width: 100%;
+}
+
+.nav ul li {
+    flex: 1;
+    text-align: center;
+    color: var(--text-icon-secondary);
+    transition: color 0.3s ease-in-out;
+}
+
+.nav ul li:hover {
+    color: var(--text-icon-primary);
+    font-weight: var(--font-bold);
+}
+
+.nav ul li.active {
+    color: var(--text-icon-primary);
+    font-weight: var(--font-bold);
+}
+
+.glassEffect {
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(1px);
+    color: white;
+    border-radius: 0 0 20px 20px;
+    border-top: none;
+}
