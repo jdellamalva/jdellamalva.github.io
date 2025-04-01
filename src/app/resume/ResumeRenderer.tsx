@@ -43,6 +43,17 @@ export default function ResumeRenderer(resume: ResumeProps) {
         setTimeout(() => setFade(true), 25);
     }, []);
 
+    const handleClick = (index: number) => {
+        if (index === currentIndex) return;
+
+        setExperienceFade(false);
+
+        setTimeout(() => {
+            setCurrentIndex(index);
+            setExperienceFade(true);
+        }, 300);
+    };
+
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
             if (event.key === "d" || event.key === "ArrowRight") {
@@ -88,18 +99,7 @@ export default function ResumeRenderer(resume: ResumeProps) {
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchend", handleTouchEnd);
         };
-    }, [currentIndex]);
-
-    const handleClick = (index: number) => {
-        if (index === currentIndex) return;
-
-        setExperienceFade(false);
-
-        setTimeout(() => {
-            setCurrentIndex(index);
-            setExperienceFade(true);
-        }, 300);
-    };
+    }, [currentIndex, handleClick, resume.experience.length]);
 
     return (
         <div className={styles.container}>
