@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import styles from "./Resume.module.css";
 
@@ -43,16 +43,19 @@ export default function ResumeRenderer(resume: ResumeProps) {
         setTimeout(() => setFade(true), 25);
     }, []);
 
-    const handleClick = (index: number) => {
-        if (index === currentIndex) return;
+    const handleClick = useCallback(
+        (index: number) => {
+            if (index === currentIndex) return;
 
-        setExperienceFade(false);
+            setExperienceFade(false);
 
-        setTimeout(() => {
-            setCurrentIndex(index);
-            setExperienceFade(true);
-        }, 300);
-    };
+            setTimeout(() => {
+                setCurrentIndex(index);
+                setExperienceFade(true);
+            }, 300);
+        },
+        [currentIndex]
+    );
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
@@ -99,7 +102,7 @@ export default function ResumeRenderer(resume: ResumeProps) {
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchend", handleTouchEnd);
         };
-    }, [currentIndex, handleClick, resume.experience.length]);
+    }, [currentIndex, resume.experience.length]);
 
     return (
         <div className={styles.container}>
