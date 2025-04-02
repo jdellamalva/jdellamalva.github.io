@@ -1,7 +1,7 @@
 .scrollable {
     flex-grow: 1;
-    overflow-y: auto;
     padding-right: 10px;
+    transition: overflow 0.15s ease-in-out;
   }
 
   .scrollable::-webkit-scrollbar {
@@ -16,4 +16,8 @@
   
   .scrollable::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  .ready {
+    overflow-y: auto;
   }

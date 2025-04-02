@@ -29,7 +29,7 @@ export default function Experience({ data }: { data: ExperienceProps }) {
         </div>
       </div>
       <div className={styles.divider}></div>
-      <ScrollContainer resetScrollOnDeps={[data]}>
+      <ScrollContainer>
       <ul className={styles.bulletPoints}>
           {data.bulletPoints.map((point, index) => {
             const bullet = (

@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, RefObject } from "react";
+import { useEffect, useState, RefObject } from "react";
 
 type useScrollOptions = {
   buffer?: number;
-  resetScrollOnDeps?: unknown[];
 };
 
 export function useScroll<T extends HTMLElement>(
   ref: RefObject<T | null>,
-  { buffer = 16, resetScrollOnDeps = [] }: useScrollOptions = {}
-) {
+  { buffer = 16 }: useScrollOptions = {}
+): boolean {
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -22,9 +23,13 @@ export function useScroll<T extends HTMLElement>(
     };
 
     el.scrollTop = 0;
-    
+
     updateHeight();
+    setReady(true);
+
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
-  }, [ref, buffer, ...(resetScrollOnDeps ?? [])]);
+  }, [ref, buffer]);
+
+  return ready;
 }
