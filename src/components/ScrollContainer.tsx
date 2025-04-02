@@ -5,7 +5,7 @@ import { useScroll } from "@/hooks/useScroll";
 
 type ScrollContainerProps = {
     buffer?: number;
-    resetScrollOnDeps?: any[];
+    resetScrollOnDeps?: unknown[];
     className?: string; // allows local overrides
   };
 

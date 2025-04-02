@@ -4,7 +4,7 @@ import { useEffect, RefObject } from "react";
 
 type useScrollOptions = {
   buffer?: number;
-  resetScrollOnDeps?: any[];
+  resetScrollOnDeps?: unknown[];
 };
 
 export function useScroll<T extends HTMLElement>(
@@ -26,5 +26,5 @@ export function useScroll<T extends HTMLElement>(
     updateHeight();
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
-  }, resetScrollOnDeps);
+  }, [ref, buffer, ...(resetScrollOnDeps ?? [])]);
 }
