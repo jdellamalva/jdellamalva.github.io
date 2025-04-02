@@ -25,7 +25,11 @@ export function useScroll<T extends HTMLElement>(
     el.scrollTop = 0;
 
     updateHeight();
-    setReady(true);
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setReady(true);
+        });
+      });
 
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
