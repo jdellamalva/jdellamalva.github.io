@@ -77,23 +77,7 @@
   gap: 8px;
 }
 
-.scrollable {
-  flex-grow: 1;
-  overflow-y: auto;
-  max-height: calc(100vh - 350px);
-  padding-right: 10px;
-}
-
-@media (max-width: 768px) {
-  .scrollable {
-    max-height: calc(100vh - 315px);
-  }
-}
-
 @media (max-width: 640px) {
-  .scrollable {
-    max-height: calc(100vh - 285px);
-  }
   .start::after,
   .end::after {
     content: attr(data-short); /* Show short version */
@@ -114,18 +98,4 @@
   .employer {
     font-weight: var(--font-regular);
   }
-}
-
-.scrollable::-webkit-scrollbar {
-  width: 6px;
-  padding-bottom: var(--padding-md);
-}
-
-.scrollable::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
-}
-
-.scrollable::-webkit-scrollbar-track {
-  background: transparent;
 }

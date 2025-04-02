@@ -1,19 +1,11 @@
 "use client";
 
-import { useRef, useEffect } from "react";
 import styles from "./Experience.module.css";
 import BulletPoint from "../BulletPoint";
 import type { ExperienceProps } from ".";
+import ScrollContainer from "@/components/ScrollContainer";
 
 export default function Experience({ data }: { data: ExperienceProps }) {
-  const scrollableRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (scrollableRef.current) {
-      scrollableRef.current.scrollTop = 0;
-    }
-  }, [data]);
-
   return (
     <div className={styles.resumeEntry}>
       <div className={`${styles.titleRow}`}>
@@ -37,8 +29,8 @@ export default function Experience({ data }: { data: ExperienceProps }) {
         </div>
       </div>
       <div className={styles.divider}></div>
-      <div className={styles.scrollable}>
-        <ul className={styles.bulletPoints}>
+      <ScrollContainer resetScrollOnDeps={[data]}>
+      <ul className={styles.bulletPoints}>
           {data.bulletPoints.map((point, index) => {
             const bullet = (
               <BulletPoint
@@ -52,7 +44,7 @@ export default function Experience({ data }: { data: ExperienceProps }) {
             return bullet;
           })}
         </ul>
-      </div>
+        </ScrollContainer>
     </div>
   );
 }
