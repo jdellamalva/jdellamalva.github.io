@@ -23,8 +23,6 @@ export default function ScrollContainer({
       className={[styles.scrollable, isReady && styles.ready, className]
         .filter(Boolean)
         .join(" ")}
-        style={{ maxHeight: isReady ? undefined : "100vh" }} // override SSR fallback
-
     >
       {children}
     </div>
