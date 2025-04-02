@@ -16,6 +16,8 @@ export function useScroll<T extends HTMLElement>(
     const el = ref.current;
     if (!el) return;
 
+    el.style.maxHeight = "100vh";
+
     const updateHeight = () => {
       const top = el.getBoundingClientRect().top;
       const height = window.innerHeight - top - buffer;
@@ -24,8 +26,10 @@ export function useScroll<T extends HTMLElement>(
 
     el.scrollTop = 0;
 
-    updateHeight();
-    setReady(true);
+    requestAnimationFrame(() => {
+        updateHeight();
+        setReady(true);
+      });
 
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
