@@ -20,9 +20,10 @@ export default function ScrollContainer({
   return (
     <div
       ref={scrollRef}
-      className={[styles.scrollable, isReady && styles.ready, className]
-        .filter(Boolean)
-        .join(" ")}
+      className={[styles.scrollable, className].filter(Boolean).join(" ")}
+      style={{
+        overflowY: isReady ? "auto" : "hidden",
+      }}
     >
       {children}
     </div>
