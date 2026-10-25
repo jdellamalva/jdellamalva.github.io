@@ -1,138 +1,82 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-
+import { useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
 import styles from "./Resume.module.css";
+import TitleBar from "./TitleBar";
+import type { TitleBarProps } from "./TitleBar";
+import Experience from "./Experience";
+import type { ExperienceProps } from "./Experience";
 
-import TitleBar from "./TitleBar/TitleBar";
-import Experience from "./Experience/Experience";
-
-interface ResumeProps {
-    name: string;
-    headline: string;
-    location: string;
-    email: string;
-    phone: string;
-    website: string;
+type ResumeProps = TitleBarProps & {
     summary: string;
-    experience: ExperienceEntry[];
-}
-
-interface ExperienceEntry {
-    id: string;
-    category: string;
-    title: string;
-    employer: string;
-    location: string;
-    start: string;
-    end: string;
-    bulletPoints: BulletPoint[];
-}
-
-interface BulletPoint {
-    text: string;
-    highlights: string[];
-}
+    experience: ExperienceProps[];
+};
 
 export default function ResumeRenderer(resume: ResumeProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [fade, setFade] = useState(false);
-    const [experienceFade, setExperienceFade] = useState(true);
+    const touchStart = useRef<{ x: number; y: number } | null>(null);
+    const entry = resume.experience[currentIndex];
 
-    useEffect(() => {
-        setTimeout(() => setFade(true), 25);
-    }, []);
+    const handleNavigationKey = (event: KeyboardEvent<HTMLElement>) => {
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+        const buttons = Array.from(event.currentTarget.querySelectorAll("button"));
+        const focusedIndex = buttons.indexOf(event.target as HTMLButtonElement);
+        if (focusedIndex < 0) return;
+        let nextIndex: number;
+        switch (event.key) {
+            case "ArrowRight": nextIndex = (focusedIndex + 1) % buttons.length; break;
+            case "ArrowLeft": nextIndex = (focusedIndex - 1 + buttons.length) % buttons.length; break;
+            case "Home": nextIndex = 0; break;
+            case "End": nextIndex = buttons.length - 1; break;
+            default: return;
+        }
+        event.preventDefault();
+        setCurrentIndex(nextIndex);
+        buttons[nextIndex].focus();
+    };
 
-    const handleClick = useCallback(
-        (index: number) => {
-            if (index === currentIndex) return;
+    const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
+        if (event.touches.length !== 1) {
+            touchStart.current = null;
+            return;
+        }
+        touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    };
 
-            setExperienceFade(false);
-
-            setTimeout(() => {
-                setCurrentIndex(index);
-                setExperienceFade(true);
-            }, 300);
-        },
-        [currentIndex]
-    );
-
-    useEffect(() => {
-        const handleKeyPress = (event: KeyboardEvent) => {
-            if (event.key === "d" || event.key === "ArrowRight") {
-                handleClick((currentIndex + 1) % resume.experience.length);
-            } else if (event.key === "a" || event.key === "ArrowLeft") {
-                handleClick(
-                    (currentIndex - 1 + resume.experience.length) %
-                        resume.experience.length
-                );
-            }
-        };
-
-        let touchStartX: number;
-        let touchEndX: number;
-
-        const handleTouchStart = (event: TouchEvent) => {
-            touchStartX = event.touches[0].clientX;
-        };
-
-        const handleTouchEnd = (event: TouchEvent) => {
-            touchEndX = event.changedTouches[0].clientX;
-            handleSwipe();
-        };
-
-        const handleSwipe = () => {
-            const swipeThreshold = 50;
-            if (touchStartX - touchEndX > swipeThreshold) {
-                handleClick((currentIndex + 1) % resume.experience.length);
-            } else if (touchEndX - touchStartX > swipeThreshold) {
-                handleClick(
-                    (currentIndex - 1 + resume.experience.length) %
-                        resume.experience.length
-                );
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyPress);
-        window.addEventListener("touchstart", handleTouchStart);
-        window.addEventListener("touchend", handleTouchEnd);
-
-        return () => {
-            window.removeEventListener("keydown", handleKeyPress);
-            window.removeEventListener("touchstart", handleTouchStart);
-            window.removeEventListener("touchend", handleTouchEnd);
-        };
-    }, [handleClick, currentIndex, resume.experience.length]);
+    const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
+        const start = touchStart.current;
+        touchStart.current = null;
+        if (!start || event.touches.length) return;
+        const dx = event.changedTouches[0].clientX - start.x;
+        const dy = event.changedTouches[0].clientY - start.y;
+        if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) return;
+        setCurrentIndex(index => (index + (dx < 0 ? 1 : -1) + resume.experience.length) % resume.experience.length);
+    };
 
     return (
-        <div className={styles.container}>
-            <div className={`${styles.resume} ${fade ? "fadeIn" : "fadeOut"}`}>
-                <TitleBar
-                    name={resume.name}
-                    headline={resume.headline}
-                    location={resume.location}
-                    email={resume.email}
-                    phone={resume.phone}
-                    website={resume.website}
-                />
-                <div className={styles.resumeNav}>
-                    {resume.experience.map((_, i) => (
-                        <div
-                            key={i}
-                            className={`${styles.resumeItem} ${
-                                i === currentIndex ? styles.active : ""
-                            }`}
-                            onClick={() => handleClick(i)}
-                        />
+        <main id="main-content" className={styles.container} tabIndex={-1}>
+            <div className={styles.resume}>
+                <TitleBar {...resume} />
+                <nav className={styles.resumeNav} aria-label="Work experience" onKeyDown={handleNavigationKey}>
+                    {resume.experience.map((experience, i) => (
+                        <button key={experience.id} type="button"
+                            className={`${styles.resumeItem} ${i === currentIndex ? styles.active : ""}`}
+                            aria-label={`${experience.title} at ${experience.employer}`}
+                            aria-pressed={i === currentIndex}
+                            aria-controls="experience-panel"
+                            title={`${experience.title} at ${experience.employer}`}
+                            onClick={() => setCurrentIndex(i)} />
                     ))}
-                </div>
-                <div
-                    className={`${styles.experienceContainer} ${
-                        experienceFade ? "fadeIn" : "fadeOut"
-                    }`}>
-                    <Experience data={resume.experience[currentIndex]} />
-                </div>
+                </nav>
+                {entry && (
+                    <section id="experience-panel" className={styles.experienceContainer}
+                        aria-label={`${entry.title} at ${entry.employer}`}
+                        onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}
+                        onTouchCancel={() => { touchStart.current = null; }}>
+                        <Experience key={entry.id} data={entry} />
+                    </section>
+                )}
             </div>
-        </div>
+        </main>
     );
 }
