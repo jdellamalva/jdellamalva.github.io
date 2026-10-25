@@ -6,7 +6,8 @@
         "dev": "next dev --turbopack",
         "build": "cross-env NODE_ENV=production next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "eslint . --max-warnings=0",
+        "typecheck": "tsc --noEmit"
     },
     "dependencies": {
         "next": "15.2.4",

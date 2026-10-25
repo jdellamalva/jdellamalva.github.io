@@ -1,101 +1,57 @@
 .resumeEntry {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    animation: fadeIn 0.3s ease-out both;
 }
 
-/* Title Row Animations */
 @keyframes fadeIn {
-  0% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 1;
-  }
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .titleRow {
-  opacity: 1;
-  color: var(--text-icon-primary);
-  text-shadow: 0 0 var(--padding-xl) var(--text-icon-primary);
-  animation: fadeIn 2s ease-out forwards;
-  user-select: none;
-  margin-bottom: 8px;
-}
-
-.jobInfoContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  flex-wrap: wrap; /* Allows wrapping if needed */
-  gap: 8px; /* Space between elements */
-  min-width: 0; /* Allows flex items to shrink */
+    flex-shrink: 0;
+    color: var(--text-icon-primary);
+    margin-bottom: 8px;
 }
 
 .title {
-  font-size: var(--font-xxxl);
-  font-weight: var(--font-bold);
+    font-size: var(--font-xxxl);
+    font-weight: var(--font-bold);
+    text-shadow: 0 0 var(--padding-xl) rgba(227, 232, 233, 0.3);
 }
 
-.employer,
-.start,
-.end {
-  font-size: var(--font-xl);
-  font-weight: var(--font-medium);
+.jobInfoContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.dateContainer {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Keeps spacing between elements */
-  flex-wrap: nowrap; /* Ensures everything stays in one line */
-}
-
-.start,
-.end {
-  text-align: center;
-}
-
-.start::after,
-.end::after {
-  content: attr(data-full);
+.employer, .dateContainer {
+    font-size: var(--font-xl);
+    font-weight: var(--font-medium);
 }
 
 .divider {
-  width: 100%;
-  position: relative;
-  height: 0px;
-  border-bottom: 1px dotted var(--text-icon-secondary);
-  opacity: 0.2;
+    flex-shrink: 0;
+    border-bottom: 1px dotted var(--text-icon-secondary);
+    opacity: 0.2;
 }
 
 .bulletPoints {
-  display: flex;
-  flex-direction: column;
-  padding-top: 2px;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 @media (max-width: 640px) {
-  .start::after,
-  .end::after {
-    content: attr(data-short); /* Show short version */
-  }
-  .start,
-  .end {
-    content: none; /* Hide full text */
-  }
-  .location {
-    display: none;
-  }
-  .titleRow {
-    margin-bottom: 0;
-  }
-  .title {
-    font-size: var(--font-xxl);
-  }
-  .employer {
-    font-weight: var(--font-regular);
-  }
+    .title { font-size: var(--font-xxl); }
+    .employer, .dateContainer { font-size: var(--font-md); }
+    .location { font-size: var(--font-sm); }
 }

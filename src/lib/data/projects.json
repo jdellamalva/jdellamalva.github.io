@@ -2,7 +2,8 @@
     {
         "id": 1,
         "title": "This Portfolio",
-        "description": "A personal portfolio built with Next.js and TypeScript, showcasing my journey into full-stack development. I'm currently designing an interactive About page to make the site more dynamic and personal."
+        "description": "A personal portfolio built with Next.js and TypeScript, showcasing my journey into full-stack development. I'm currently designing an interactive About page to make the site more dynamic and personal.",
+        "url": "https://github.com/jdellamalva/jdellamalva.github.io"
     },
     {
         "id": 2,

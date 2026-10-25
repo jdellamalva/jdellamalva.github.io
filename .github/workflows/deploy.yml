@@ -3,6 +3,12 @@ name: Deploy to GitHub Pages
 on:
     push:
         branches: [main]
+    pull_request:
+        branches: [main]
+
+concurrency:
+    group: portfolio-${{ github.ref }}
+    cancel-in-progress: true
 
 permissions:
     contents: write
@@ -27,11 +33,15 @@ jobs:
             - name: 🛠 Build static site
               run: npm run build
 
+            - name: Check lint and types
+              run: npm run lint && npm run typecheck
+
             - name: 📝 Add .nojekyll
               run: |
                   echo > out/.nojekyll
 
             - name: 🚀 Deploy to GitHub Pages
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
               uses: peaceiris/actions-gh-pages@v4
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
