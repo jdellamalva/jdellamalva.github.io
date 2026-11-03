@@ -25,3 +25,9 @@
     text-decoration: underline;
     text-underline-offset: 4px;
 }
+
+.sourceStatus {
+    margin-top: var(--padding-md);
+    color: var(--text-icon-secondary);
+    font-size: var(--font-xs);
+}

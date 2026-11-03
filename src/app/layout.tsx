@@ -3,8 +3,8 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 
 export const metadata: Metadata = {
-    title: "jdellamalva",
-    description: "Joseph D. Della Malva's portfolio",
+    title: "jdellamalva | Projects",
+    description: "Selected software projects and repositories by jdellamalva.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

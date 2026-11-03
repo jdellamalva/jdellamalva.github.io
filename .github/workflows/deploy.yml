@@ -36,6 +36,9 @@ jobs:
             - name: Check lint and types
               run: npm run lint && npm run typecheck
 
+            - name: Verify portfolio export
+              run: npm run verify:portfolio
+
             - name: 📝 Add .nojekyll
               run: |
                   echo > out/.nojekyll
@@ -48,3 +51,4 @@ jobs:
                   publish_dir: ./out
                   publish_branch: gh-pages
                   enable_jekyll: false
+                  keep_files: false

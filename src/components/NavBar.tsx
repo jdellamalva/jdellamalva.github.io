@@ -5,8 +5,7 @@ import { usePathname } from "next/navigation";
 import styles from "./NavBar.module.css";
 
 const links = [
-    { href: "/resume", label: "Resume" },
-    { href: "/projects", label: "Projects" },
+    { href: "/", label: "Projects" },
 ];
 
 export default function NavBar() {
@@ -16,15 +15,18 @@ export default function NavBar() {
         <header className={styles.container}>
             <nav className={styles.nav} aria-label="Main navigation">
                 <ul>
-                    {links.map(({ href, label }) => (
-                        <li key={href}>
-                            <Link href={href}
-                                className={pathname === href ? styles.active : undefined}
-                                aria-current={pathname === href ? "page" : undefined}>
-                                {label}
-                            </Link>
-                        </li>
-                    ))}
+                    {links.map(({ href, label }) => {
+                        const active = pathname === href || (href === "/" && pathname === "/projects");
+                        return (
+                            <li key={href}>
+                                <Link href={href}
+                                    className={active ? styles.active : undefined}
+                                    aria-current={active ? "page" : undefined}>
+                                    {label}
+                                </Link>
+                            </li>
+                        );
+                    })}
                 </ul>
             </nav>
         </header>
